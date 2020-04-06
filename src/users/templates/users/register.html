@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+		<h3 class="mb-1">Create Your Account</h3>
+		<form class="col sm-12" method="POST">
+			{% csrf_token %}
+			<div class="row sm-12 mb-1">
+				{% if form.errors.email %}
+					{% for error in form.errors.email %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.email }}
+			</div>
+			<div class="row sm-12 mb-1">
+				{% if form.errors.first_name %}
+					{% for error in form.errors.first_name %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.first_name }}
+			</div>
+			<div class="row sm-12 mb-1">
+				{% if form.errors.last_name %}
+					{% for error in form.errors.last_name %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.last_name }}
+			</div>
+			<div class="row sm-12 mb-1">
+				{% if form.errors.password1 %}
+					{% for error in form.errors.password1 %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.password1 }}
+			</div>
+			<div class="row sm-12 mb-1">
+				{% if form.errors.password2 %}
+					{% for error in form.errors.password2 %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.password2 }}
+			</div>
+			<div class="row sm-12">
+				<button type="submit" class="button button-sm button-primary sm-3">Sign Up</button>
+			</div>
+		</form>
+
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

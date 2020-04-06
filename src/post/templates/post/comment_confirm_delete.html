@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+		<script>
+			function goBack(url){
+				window.history.back()
+			}
+		</script>
+		<div class="post-comments col sm-12">
+			<h3 class="mb-1">Are you sure you want to delete the comment: </h3>
+			<span class="small muted mb-1">{{ comment.content }}</span>
+			<form method="post">
+				{% csrf_token %}
+				<div class="row sm-12">
+					<button type="submit" class="button button-sm sm-2">Yes, Delete</button>
+					<button type="button" class="button button-sm button-primary sm-2 ml-1" onclick="goBack()">No, Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

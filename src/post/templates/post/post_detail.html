@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% load post_extras %}
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+
+		<div class="row sm-12 mb-2">
+			<h2 class="sm-12 mb-1">{{ post.title }}</h2>
+			<div class="row sm-12 mb-1 small muted horizontal-start">
+				<div class="sm-4">
+					<span>Author:</span><a href="{% url 'profiles:home' email=post.author.email %}" class="ml-05">{{ post.author.first_name }} {{ post.author.last_name }}</a>
+				</div>
+				<div class="sm-4">
+					<span>Posted on:</span><span class="ml-05">{{ post.posted_on|date:"F j, Y" }}</span>
+				</div>
+				{% if request.user == post.author %}
+				<div class="row sm-4 horizontal-end">
+					<a href="{{ post.get_update_url }}" class="row sm-3 horizontal-center">Edit</a>
+					<a href="{{ post.get_delete_url }}" class="row sm-3 horizontal-center">Delete</a>
+				</div>
+				{% endif %}
+
+			</div>
+			<div class="post-description col sm-12">
+				<div class="img sm-12 mb-1">
+					{% if post.image %}
+					<img src="{{ post.image.url }}"/>
+					{% if post.caption %}
+					<div class="row small muted mt-1">
+						{{ post.caption }}
+					</div>
+					{% endif %}
+					{% endif %}
+				</div>
+				{% for para_text in post.content|para %}
+					<p class="mb-1 text-justify">{{ para_text }}</p>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="post-comments col sm-12">
+			<h3 class="mb-1">Comments</h3>
+			<form method="post" class="mb-2">
+				<div class="row sm-12 mb-05">
+
+					{% csrf_token %}
+					{% if form.errors.content %}
+						{% for error in form.errors.content %}
+							<span class="form-error mb-05">{{ error }}</span>
+						{% endfor %}
+					{% endif %}
+
+					{{ form.content }}
+					<!-- <textarea class="textarea textarea-md p-1" placeholder="Your comment"></textarea> -->
+				</div>
+				<div class="row sm-12">
+					<button type="submit" class="button button-sm button-primary sm-1">Post</button>
+				</div>
+			</form>
+			<div class="col sm-12 small">
+				{% for comment in comments %}
+				<div class="comment row sm-12 mb-1">
+					<a href="{% url 'profiles:home' email=comment.user.email %}" class="sm-12 mb-05">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+					<div class="row sm-12 mb-05 horizontal-start">
+						<span class="row muted sm-3">{{ comment.commented_on|date:"F j, Y" }}</span>
+
+						{% if request.user == comment.user %}
+						<div class="row sm-9">
+							<a href="{{ comment.get_update_url }}" class="sm-1">Edit</a>
+							<a href="{{ comment.get_delete_url }}" class="sm-1">Delete</a>
+						</div>
+						{% endif %}
+					</div>
+					<div class="comment-text col">
+						{% for comment_para in comment.content|para %}
+						<p class="mb-05 text-justify">{{ comment_para }}</p>
+						{% endfor %}
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

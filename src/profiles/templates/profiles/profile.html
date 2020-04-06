@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+
+		<div class="profile-header row sm-12 mb-2">
+			<div class="col sm-2 profile-pic img vertical-start">
+				<img src="{{ user.profile_pic.url }}" />
+			</div>
+			<div class="row sm-10 profile-info pl-2 vertical-start">
+				<h3 class="sm-12 mb-1">{{ user.first_name }} {{ user.last_name }}</h3>
+				<div class="row sm-12 small muted mb-1">
+					<div class="col sm-3">
+						<span>{{ followers }}</span>
+						<span>Followers</span>
+					</div>
+					<div class="col sm-3">
+						<span>{{ following }}</span>
+						<span>Following</span>
+					</div>
+					{% if request.user.is_authenticated and request.user != user %}
+					<form class="col sm-3" method="POST">
+						{% csrf_token %}
+						{% if not is_follower %}
+						<button type="submit" class="button button-sm button-primary sm-8">Follow</button>
+						{% else %}
+						<button type="submit" class="button button-sm sm-9">Unfollow</button>
+						{% endif %}
+					</form>
+					{% endif %}
+				</div>
+				{% if request.user == user %}
+				<div class="row sm-12 small">
+					<div class="col sm-3">
+						<a href="{% url 'profiles:update-photo' email=user.email %}">Update Photo</a>
+					</div>
+					<div class="col sm-3">
+						<a href="{% url 'profiles:update-password' email=user.email %}">Change Password</a>
+					</div>
+				</div>  
+				{% endif %}
+			</div>
+		</div>
+
+		<hr class="mb-1">
+
+		<div class="row sm-12">
+			<h3 class="mb-1">Published Posts</h3>
+			<div class="col sm-12 small">
+				{% for post in user.posts.all %}
+				{% if post.published %}
+					<a href="{{ post.get_absolute_url }}" class="mb-1">{{ post.title }}</a>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		
+		{% if request.user == user %}
+		<hr class="mb-1">
+
+		<div class="row sm-12">
+			<h3 class="mb-1">Unpublished Posts</h3>
+			<div class="col sm-12 small">
+				{% for post in user.posts.all %}
+				{% if not post.published %}
+					<a href="{{ post.get_absolute_url }}" class="mb-1">{{ post.title }}</a>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

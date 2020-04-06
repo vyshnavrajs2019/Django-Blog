@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+		<h3 class="mb-1">Welcome Back</h3>
+		<form class="col sm-12" method="POST">
+			{% csrf_token %}
+			{% if form.non_field_errors %}
+				{% for error in form.non_field_errors %}
+					<span class="form-error mb-05">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
+			<div class="row sm-12 mb-1">
+				{% if form.errors.email %}
+					{% for error in form.errors.email %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.email }}
+			</div>
+			<div class="row sm-12 mb-1">
+				{% if form.errors.password %}
+					{% for error in form.errors.password %}
+						<span class="form-error mb-05">{{ error }}</span>
+					{% endfor %}
+				{% endif %}
+				{{ form.password }}
+			</div>
+			<div class="row sm-12">
+				<button type="submit" class="button button-sm button-primary sm-3">Login</button>
+			</div>
+		</form>
+
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

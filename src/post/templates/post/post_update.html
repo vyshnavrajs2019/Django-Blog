@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="col sm-3"></div>
+	<div class="col sm-6">
+		<h3 class="mb-1">{{ action }} Your Post</h3>
+		<form class="col sm-12" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% if form.errors.title %}
+				{% for error in form.errors.title %}
+					<span class="form-error mb-05">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
+			<div class="row sm-12 mb-1">
+				<!-- <input type="text" class="input input-sm p-1" placeholder="Title"> -->
+				{{ form.title }}
+			</div>
+			{% if form.errors.content %}
+				{% for error in form.errors.content %}
+					<span class="form-error mb-05">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
+			<div class="row sm-12 mb-1">
+				<!-- <textarea class="textarea textarea-lg p-1" placeholder="Content"></textarea> -->
+				{{ form.content }}
+			</div>
+
+			{% if form.errors.caption %}
+				{% for error in form.errors.caption %}
+					<span class="form-error mb-05">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
+			<div class="row sm-12 mb-1">
+				{{ form.caption }}
+			</div>
+
+			{% if form.errors.image %}
+				{% for error in form.errors.image %}
+					<span class="form-error mb-05">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
+			<div class="row sm-12 mb-1">
+				{{ form.image }}
+			</div>
+
+			<div class="row sm-12 mb-1 small">
+				<!-- <textarea class="textarea textarea-lg p-1" placeholder="Content"></textarea> -->
+				<label for="id_publish" class="mr-1">{{ form.published.label }}</label>
+				{{ form.published }}
+			</div>
+			<div class="row sm-12">
+				<button type="submit" class="button button-sm button-primary sm-2">{{ button_action }} Post</button>
+			</div>
+		</form>
+
+	</div>
+	<div class="col sm-3"></div>
+
+{% endblock content %}

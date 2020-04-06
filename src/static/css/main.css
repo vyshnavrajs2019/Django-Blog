@@ -1,0 +1,13 @@
+body{
+	background-color: #fff;
+}
+
+header nav a{
+	border-bottom: 1px solid #000;
+}
+
+div.profile-header div.profile-pic{
+	max-width: 75px;
+	min-width: 75px;
+	height: 75px;
+}
